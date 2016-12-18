@@ -14,17 +14,27 @@ public interface Money extends Comparable<Money> {
 
     Money multiply(long factor);
 
-    boolean gte(Money other);
+    default boolean gte(Money other) {
+        return compareTo(other) >= 0;
+    }
 
-    boolean lte(Money other);
+    default boolean gt(Money other) {
+        return compareTo(other) > 0;
+    }
 
-    boolean gt(Money other);
+    default boolean lte(Money other) {
+        return compareTo(other) <= 0;
+    }
 
-    boolean lt(Money other);
+    default boolean lt(Money other) {
+        return compareTo(other) < 0;
+    }
 
     Money opposite();
 
     RationalMoney convertToRational();
+
+    IntegerMoney convertToInteger();
 
     static Money valueOf(Rational value, Currency currency) {
         return new RationalMoney(value, currency);

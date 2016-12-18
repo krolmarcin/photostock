@@ -26,22 +26,6 @@ class RationalMoney implements Money {
         return new RationalMoney(value.multiply(factor), currency);
     }
 
-    public boolean gte(Money other) {
-        return compareTo(other) >= 0;
-    }
-
-    public boolean gt(Money other) {
-        return compareTo(other) > 0;
-    }
-
-    public boolean lte(Money other) {
-        return compareTo(other) <= 0;
-    }
-
-    public boolean lt(Money other) {
-        return compareTo(other) < 0;
-    }
-
     @Override
     public int compareTo(Money other) {
         RationalMoney rationalMoney = other.convertToRational();
@@ -62,6 +46,7 @@ class RationalMoney implements Money {
     public String toString() {
         return value.toDouble() + " " + currency.name();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -84,6 +69,12 @@ class RationalMoney implements Money {
     @Override
     public RationalMoney convertToRational() {
         return this;
+    }
+
+    @Override
+    public IntegerMoney convertToInteger() {
+        long cents = value.getNumerator() * 100 / value.getDenomonator();
+        return new IntegerMoney(cents, currency);
     }
 
 }

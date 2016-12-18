@@ -101,6 +101,15 @@ public final class Rational implements Comparable<Rational> {
         return (numerator * number.denominator) > (number.numerator * denominator) ? 1 : -1;
     }
 
+    public long getNumerator() {
+        return numerator;
+    }
+
+    public long getDenomonator() {
+        return denominator;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
