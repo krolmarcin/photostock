@@ -1,5 +1,7 @@
 package pl.com.bottega.photostock.sales.model;
 
+import pl.com.bottega.photostock.sales.model.money.Money;
+
 public class VipClient extends Client {
 
     private Money creditLimit;

@@ -1,5 +1,7 @@
 package pl.com.bottega.photostock.sales.model;
 
+import pl.com.bottega.photostock.sales.model.money.Money;
+
 public abstract class AbstractProduct implements Product {
     protected String number;
     private String name;
@@ -14,13 +16,6 @@ public abstract class AbstractProduct implements Product {
         this.catalogPrice = catalogPrice;
         this.active = active;
     }
-
-    /*
-    @Override
-    public Money calculatePrice(Client client) {
-        return catalogPrice;
-    }
-    */
 
     public abstract Money calculatePrice(Client client);
 
