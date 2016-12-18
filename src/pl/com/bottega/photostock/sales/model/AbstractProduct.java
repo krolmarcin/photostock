@@ -101,9 +101,9 @@ public abstract class AbstractProduct implements Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractProduct picture = (AbstractProduct) o;
+        AbstractProduct product = (AbstractProduct) o;
 
-        return number != null ? number.equals(picture.number) : picture.number == null;
+        return number != null ? number.equals(product.number) : product.number == null;
     }
 
     @Override
