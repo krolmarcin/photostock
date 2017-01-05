@@ -41,11 +41,11 @@ public interface Money extends Comparable<Money> {
     }
 
     static Money valueOf(long value, Currency currency) {
-        return new RationalMoney(Rational.valueOf(value), currency);
+        return new IntegerMoney(value, currency);
     }
 
     static Money valueOf(long value) {
-        return new RationalMoney(Rational.valueOf(value), DEFAULT_CURRENCY);
+        return new IntegerMoney(value, DEFAULT_CURRENCY);
     }
 
 }

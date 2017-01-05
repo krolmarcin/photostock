@@ -59,8 +59,6 @@ class IntegerMoney implements Money {
 //        return cents < integerMoney.cents ? -1 : 1;
     }
 
-    //TODO napisać equals i hashcode samodzielnie
-
     private void ensureSameCurrenry(IntegerMoney other) {
         if (currency != other.currency)
             throw new IllegalArgumentException(String.format("Currency %s mismatch %s", currency, other));
@@ -70,6 +68,38 @@ class IntegerMoney implements Money {
         IntegerMoney integerMoney = other.convertToInteger();
         ensureSameCurrenry(integerMoney);
         return integerMoney;
+    }
+
+    //TODO napisać equals i hashcode samodzielnie
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || !(obj instanceof Money)) return false;
+
+        IntegerMoney money;
+
+        if (obj instanceof RationalMoney) {
+            RationalMoney objAsRational = (RationalMoney) obj;
+            money = objAsRational.convertToInteger();
+        } else {
+            money = (IntegerMoney) obj;
+        }
+
+        if (cents != money.cents) return false;
+        return currency == money.currency;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (cents ^ (cents >>> 32));
+        result = 31 * result + currency.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return cents + " " + currency;
     }
 
 }

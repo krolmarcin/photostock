@@ -51,9 +51,17 @@ class RationalMoney implements Money {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RationalMoney)) return false;
+        if (getClass() != o.getClass()) return false;
+        //if (!(o instanceof RationalMoney)) return false;
 
-        RationalMoney money = (RationalMoney) o;
+        RationalMoney money;
+
+        if (o instanceof IntegerMoney){
+            IntegerMoney objAsInteger = (IntegerMoney) o;
+            money = objAsInteger.convertToRational();
+        } else {
+            money = (RationalMoney) o;
+        }
 
         if (!value.equals(money.value)) return false;
         return currency == money.currency;

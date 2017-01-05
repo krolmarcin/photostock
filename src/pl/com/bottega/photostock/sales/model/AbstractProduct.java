@@ -89,7 +89,7 @@ public abstract class AbstractProduct implements Product {
                 return (otherPicture.number == this.number) ||
                         (otherPicture.number != null && otherPicture.number.equals(this.number));
             }
-        */
+     */
 
     @Override
     public boolean equals(Object o) {
