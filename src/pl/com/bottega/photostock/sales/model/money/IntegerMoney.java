@@ -70,8 +70,6 @@ class IntegerMoney implements Money {
         return integerMoney;
     }
 
-    //TODO napisać equals i hashcode samodzielnie
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
