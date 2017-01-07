@@ -18,6 +18,10 @@ public class Picture extends AbstractProduct {
         this(number, name, tags, catalogPrice, true);
     }
 
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
+    }
+
     @Override
     public Money calculatePrice(Client client) {
         return catalogPrice;

@@ -71,21 +71,15 @@ class IntegerMoney implements Money {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || !(obj instanceof Money)) return false;
-
-        IntegerMoney money;
-
-        if (obj instanceof RationalMoney) {
-            RationalMoney objAsRational = (RationalMoney) obj;
-            money = objAsRational.convertToInteger();
-        } else {
-            money = (IntegerMoney) obj;
-        }
-
-        if (cents != money.cents) return false;
-        return currency == money.currency;
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof Money))
+            return false;
+        IntegerMoney integerMoney;
+        if (other instanceof RationalMoney)
+            integerMoney = ((RationalMoney) other).convertToInteger();
+        else
+            integerMoney = (IntegerMoney) other;
+        return integerMoney.cents == cents && integerMoney.currency == currency;
     }
 
     @Override
@@ -97,7 +91,7 @@ class IntegerMoney implements Money {
 
     @Override
     public String toString() {
-        return cents + " " + currency;
+        return String.format("%d.%02d %s", cents / 100, cents % 100, currency.name());
     }
 
 }

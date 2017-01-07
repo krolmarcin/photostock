@@ -1,23 +1,20 @@
-package pl.com.bottega.photostock.sales.application;
+package pl.com.bottega.photostock.sales.presentation;
 
+import pl.com.bottega.photostock.sales.infrastructure.InMemoryProductRepository;
 import pl.com.bottega.photostock.sales.model.*;
 import pl.com.bottega.photostock.sales.model.money.Money;
 
-import java.util.Collection;
-
-public class LightBoxRepositoryTest {
+public class LightBoxTest {
 
     public static void main(String[] args) {
 
-        InMemoryLightBoxRepository repository = new InMemoryLightBoxRepository();
         ProductRepository productRepository = new InMemoryProductRepository();
-
-        Client client1 = new Client("Stefan", new Address(), Money.valueOf(100));
-        Client client2 = new Client("Johny Z", new Address(), Money.valueOf(80));
-
         Product product1 = productRepository.get("1");
         Product product2 = productRepository.get("2");
         Product product3 = productRepository.get("3");
+
+        Client client1 = new Client("Johny X", new Address(), Money.valueOf(100));
+        Client client2 = new Client("Johny X", new Address(), Money.valueOf(100));
 
         LightBox l1 = new LightBox(client1, "Samochody");
         LightBox l2 = new LightBox(client1, "Bmw");
@@ -26,18 +23,21 @@ public class LightBoxRepositoryTest {
         l1.add(product1);
         l1.add(product2);
         l1.add(product3);
+
         l2.add(product1);
+
         l3.add(product3);
 
-        repository.put(l1);
-        repository.put(l2);
-        repository.put(l3);
+        product3.deactivate();
 
-        printLightboxes(repository.getFor(client1));
-        printLightboxes(repository.getFor(client2));
+        printLightboxes(l1, l2, l3);
+
+        LightBox l4 = LightBox.joined(client1, "Joined lightboxes", l1, l2, l3);
+        System.out.println("Joined lightbox");
+        printLightbox(l4);
     }
 
-    private static void printLightboxes(Collection<LightBox> lightboxes) {
+    private static void printLightboxes(LightBox... lightboxes) {
         int nr = 1;
         for (LightBox lightbox : lightboxes) {
             System.out.println(String.format("%d. %s - %s", nr, lightbox.getName(), lightbox.getOwner().getName()));
