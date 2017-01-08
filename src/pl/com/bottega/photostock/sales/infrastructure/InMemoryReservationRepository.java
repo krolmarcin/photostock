@@ -22,7 +22,6 @@ public class InMemoryReservationRepository implements ReservationRepository {
 
     @Override
     public Reservation getActiveReservationForClient(String clientNumber) {
-
         for (Reservation reservation : REPOSITORY.values()) {
             if (reservation.isOwnedBy(clientNumber))
                 return reservation;

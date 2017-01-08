@@ -28,14 +28,21 @@ public class PurchaseProcess {
         return reservation.getNumber();
     }
 
-    public void add(String reservarionNumber, String productNumber) {
-        Reservation reservation = reservationRepository.get(reservarionNumber);
+    public void add(String reservationNumber, String productNumber) {
+        Reservation reservation = reservationRepository.get(reservationNumber);
         if (reservation == null)
-            throw new IllegalArgumentException(String.format("Reservation %s doesn't exist", reservarionNumber));
+            throw new IllegalArgumentException(String.format("Reservation %s doesn't exist", reservationNumber));
         Product product = productRepository.get(productNumber);
         if (product == null)
             throw new IllegalArgumentException(String.format("Product %s doesn't exist", productNumber));
         reservation.add(product);
+    }
+
+    public Offer calculateOffer(String reservationNumber) {
+        Reservation reservation = reservationRepository.get(reservationNumber);
+        if (reservation == null)
+            throw new IllegalArgumentException(String.format("Reservation %s doesn't exist", reservationNumber));
+        return reservation.generateOffer();
     }
 
 }

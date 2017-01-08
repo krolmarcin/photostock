@@ -7,6 +7,7 @@ import java.util.*;
 public class Offer {
 
     private List<Product> items;
+
     private Client client;
 
     public Offer(Client client, Collection<Product> items) {
