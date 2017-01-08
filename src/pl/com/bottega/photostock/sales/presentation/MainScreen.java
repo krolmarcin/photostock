@@ -15,7 +15,6 @@ public class MainScreen {
         this.offerScreen = offerScreen;
     }
 
-
     public void print() {
         while (true) {
             printMenu();
@@ -36,7 +35,7 @@ public class MainScreen {
                 offerScreen.print();
                 break;
             default:
-                System.out.println("Sorry nie rozumiem ;(");
+                System.out.println("Nie ma takiej opcji.");
         }
     }
 
@@ -47,7 +46,7 @@ public class MainScreen {
     }
 
     private String getCommand() {
-        System.out.print("Co chcesz zrobić: ");
+        System.out.print("Wybierz opcję z menu: ");
         return scanner.nextLine();
     }
 }

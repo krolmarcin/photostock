@@ -11,8 +11,9 @@ public class InMemoryProductRepository implements ProductRepository {
 
     static {
         Collection<String> tags = Arrays.asList("przyroda", "motoryzacja");
+        Collection<String> tags1 = Arrays.asList("dupa", "samochód");
         Product product1 = new Picture("1", "BMW", tags, Money.valueOf(300));
-        Product product2 = new Picture("2", "Mercedes", tags, Money.valueOf(250));
+        Product product2 = new Picture("2", "Mercedes", tags1, Money.valueOf(250));
         Product product3 = new Picture("3", "Porsche", tags, Money.valueOf(400));
         Product clip1 = new Clip("4", "Wściekłe pięści węża", 2l * 1000 * 60 * 2, Money.valueOf(400));
         Product clip2 = new Clip("5", "Sum tzw. olimpijczyk", 40l * 1000 * 60 * 2, Money.valueOf(1000));
@@ -64,7 +65,7 @@ public class InMemoryProductRepository implements ProductRepository {
     private boolean matchesTags(Product product, String[] tags) {
         if (tags == null || tags.length == 0)
             return true;
-        if (product instanceof Picture)
+        if (!(product instanceof Picture))
             return false;
         Picture picture = (Picture) product;
         for (String tag : tags)
