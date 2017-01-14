@@ -32,7 +32,10 @@ public class Reservation {
     }
 
     public Offer generateOffer() {
-        return new Offer(client, getActiveItems());
+        Collection<Product> products = getActiveItems();
+        if (products.isEmpty())
+            throw new IllegalStateException("No active items in the reservation");
+        return new Offer(client, products);
     }
 
     private Collection<Product> getActiveItems() {

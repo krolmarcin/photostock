@@ -23,8 +23,8 @@ public class ReservationScreen {
             System.out.println("Podaj numer produktu do rezerwacji: ");
             String productNumber = scanner.nextLine();
             try {
-                String clientnumber = loginScreen.getAuthenticatedClientNumber();
-                String reservationNumber = purchaseProcess.getReservation(clientnumber);
+                String clientNumber = loginScreen.getAuthenticatedClientNumber();
+                String reservationNumber = purchaseProcess.getReservation(clientNumber);
                 purchaseProcess.add(reservationNumber, productNumber);
                 System.out.println(String.format("Produkt %s został dodany do rezerwacji %s", productNumber, reservationNumber));
                 return;
