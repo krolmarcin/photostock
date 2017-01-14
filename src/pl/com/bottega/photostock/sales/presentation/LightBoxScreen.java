@@ -47,12 +47,20 @@ public class LightBoxScreen {
             if (cmd[0].equals("pokaz")) {
                 showLightBox(cmd[1]);
                 return;
+            } else if (cmd[0].equals("rezerwuj")) {
+                reserveLightBoxes(cmd[1]);
+                return;
             }
         } else if (cmd.length == 3 && cmd[0].equals("dodaj")) {
             addToLightBox(cmd[1], cmd[2]);
             return;
         }
         System.out.println("Sorry nie rozumiem ;(");
+    }
+
+    private void reserveLightBoxes(String lightBoxName) {
+        lightBoxManagement.reserve(loginScreen.getAuthenticatedClientNumber(), lightBoxName);
+        System.out.println("Produkty zostały zarezerwowane.");
     }
 
     private void addToLightBox(String ligthBoxName, String productNumber) {
@@ -103,6 +111,7 @@ public class LightBoxScreen {
         System.out.println("pokaz -> powoduje wyswietlenie nazw wszystkich lighboxow\n" +
                 "pokaz [nazwa lightboxa] -> powoduje wyswietlenie produktow znajdujacych sie w lighboxie o zadanej nazwie\n" +
                 "dodaj [nazwa lightboxa] [nr produktu] -> powoduje dodanie do lightboxa o zadanej nazwie produktu o zadanym numerze\n" +
+                "rezerwuj [nazwa lightboxa] -> dodaje do rezerwacji wszystkie produkty z light boxa\n" +
                 "powrot -> powoduje powrot do menu głównego aplikacji");
     }
 

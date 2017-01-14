@@ -10,6 +10,8 @@ public class Reservation {
 
     private String number;
 
+    private boolean active = true;
+
     public Reservation(Client client) {
         this.client = client;
         this.number = UUID.randomUUID().toString();
@@ -58,8 +60,19 @@ public class Reservation {
         return client;
     }
 
+    public Client getOwner() {
+        return client;
+    }
+
     public boolean isOwnedBy(String clientNumber) {
         return client.getNumber().equals(clientNumber);
     }
 
+    public void deactivate() {
+        this.active = false;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
 }

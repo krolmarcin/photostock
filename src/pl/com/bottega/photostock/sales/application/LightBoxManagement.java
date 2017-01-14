@@ -2,17 +2,18 @@ package pl.com.bottega.photostock.sales.application;
 
 import pl.com.bottega.photostock.sales.model.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class LightBoxManagement {
 
+    private PurchaseProcess purchaseProcess;
     private final LightBoxRepository lightBoxRepository;
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
 
-    public LightBoxManagement(LightBoxRepository lightBoxRepository, ProductRepository productRepository,
+    public LightBoxManagement(PurchaseProcess purchaseProcess, LightBoxRepository lightBoxRepository, ProductRepository productRepository,
                               ClientRepository clientRepository) {
+        this.purchaseProcess = purchaseProcess;
         this.lightBoxRepository = lightBoxRepository;
         this.productRepository = productRepository;
         this.clientRepository = clientRepository;
@@ -59,6 +60,15 @@ public class LightBoxManagement {
     private void ensureLightBoxFound(String lightBoxName, LightBox lightBox) {
         if (lightBox == null)
             throw new IllegalArgumentException(String.format("No LightBox with the given name %s", lightBoxName));
+    }
+
+    public void reserve(String clientNumber, String lightBoxName) {
+        LightBox lightBox = getLightBox(clientNumber, lightBoxName);
+        String reservationNumber = purchaseProcess.getReservation(clientNumber);
+        for (Product product : lightBox) {
+            if (product.isAvaliable())
+                purchaseProcess.add(reservationNumber, product.getNumber());
+        }
     }
 
 
