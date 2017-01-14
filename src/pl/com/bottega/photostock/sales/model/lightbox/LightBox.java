@@ -10,14 +10,15 @@ import java.util.LinkedList;
 public class LightBox implements Iterable<Product> {
 
     private Client client;
+
     private String name;
+
+    private Collection<Product> items = new LinkedList<>();
 
     public LightBox(Client client, String name) {
         this.client = client;
         this.name = name;
     }
-
-    private Collection<Product> items = new LinkedList<>();
 
     public void add(Product product) {
         if (items.contains(product))

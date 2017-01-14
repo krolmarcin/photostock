@@ -21,8 +21,7 @@ public class Clip extends AbstractProduct {
     public Money calculatePrice(Client client) {
         if (length > FIVE_MINUTES)
             return catalogPrice.multiply(2);
-        else
-            return catalogPrice;
+        return catalogPrice;
     }
 
 }

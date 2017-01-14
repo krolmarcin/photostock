@@ -14,8 +14,8 @@ public class InMemoryClientRepository implements ClientRepository {
     private static final Map<String, Client> REPOSITORY = new HashMap<>();
 
     static {
-        Client client = new Client("Johny X", new Address(), Money.valueOf(10000));
-        Client vipClient = new VipClient("Johny VIP", new Address(), Money.valueOf(1000), Money.valueOf(10000));
+        Client client = new Client("Johny X", new Address(), Money.valueOf(100));
+        Client vipClient = new VipClient("Johny VIP", new Address(), Money.ZERO, Money.valueOf(100));
         REPOSITORY.put(client.getNumber(), client);
         REPOSITORY.put(vipClient.getNumber(), vipClient);
     }

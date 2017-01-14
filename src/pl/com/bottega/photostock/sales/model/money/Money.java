@@ -36,16 +36,16 @@ public interface Money extends Comparable<Money> {
 
     IntegerMoney convertToInteger();
 
-    static Money valueOf(Rational value, Currency currency) {
-        return new RationalMoney(value, currency);
-    }
-
     static Money valueOf(long value, Currency currency) {
-        return new IntegerMoney(value, currency);
+        return new IntegerMoney(value *100L, currency);
     }
 
     static Money valueOf(long value) {
-        return new IntegerMoney(value, DEFAULT_CURRENCY);
+        return new IntegerMoney(value * 100L, DEFAULT_CURRENCY);
+    }
+
+    static Money valueOf(Rational value, Currency currency) {
+        return new RationalMoney(value, currency).convertToInteger();
     }
 
     static Money valueOf(float value) {
