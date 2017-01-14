@@ -32,7 +32,7 @@ public class SearchScreen {
     }
 
     private void printProducts(Client client, List<Product> products) {
-        System.out.println("Matching products: ");
+        System.out.println("Wyszukane produkty: ");
         for (Product product : products) {
             System.out.println(String.format("%s | %s %s",
                     product.getNumber(),
