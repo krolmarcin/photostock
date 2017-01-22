@@ -26,7 +26,6 @@ public class LightBoxMain {
     private LightBoxScreen lightBoxScreen;
 
     public LightBoxMain() {
-        Connection connection;
         Scanner scanner = new Scanner(System.in);
         ProductRepository productRepository = new InMemoryProductRepository();
         ProductCatalog productCatalog = new ProductCatalog(productRepository);

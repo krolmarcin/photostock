@@ -94,4 +94,7 @@ public class IntegerMoney implements Money {
         return String.format("%d.%02d %s", cents / 100, cents % 100, currency.name());
     }
 
+    public long toCents() {
+        return cents;
+    }
 }

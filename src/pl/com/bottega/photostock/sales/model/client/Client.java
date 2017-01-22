@@ -88,6 +88,10 @@ public class Client {
         active = false;
     }
 
+    public void activate() {
+        active = true;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -107,5 +111,4 @@ public class Client {
     public Collection<Transaction> getTransactions() {
         return new LinkedList<>(transactions);
     }
-
 }
