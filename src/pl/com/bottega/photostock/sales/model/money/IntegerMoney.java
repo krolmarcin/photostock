@@ -1,11 +1,11 @@
 package pl.com.bottega.photostock.sales.model.money;
 
-class IntegerMoney implements Money {
+public class IntegerMoney implements Money {
 
     private long cents;
     private Currency currency;
 
-    IntegerMoney(long cents, Currency currency) {
+    public IntegerMoney(long cents, Currency currency) {
         this.cents = cents;
         this.currency = currency;
     }

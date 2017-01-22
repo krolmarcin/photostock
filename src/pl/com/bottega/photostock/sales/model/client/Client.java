@@ -104,29 +104,8 @@ public class Client {
         return balance;
     }
 
-/*
-    public String introduce(){
-        String statusName = null;
-        switch (status){
-            case STANDARD:
-                statusName = "Standardowy";
-                break;
-            case VIP:
-                statusName = "VIP";
-                break;
-            case GOLD:
-                statusName = "Złoty";
-                break;
-            case SILVER:
-                statusName = "Srebrny";
-                break;
-            case PLATINUM:
-                statusName = "Platynowy";
-                break;
-            default:
-                statusName = "NN";
-        }
-        return String.format("%s - %s", name, statusName);
+    public Collection<Transaction> getTransactions() {
+        return new LinkedList<>(transactions);
     }
-*/
+
 }

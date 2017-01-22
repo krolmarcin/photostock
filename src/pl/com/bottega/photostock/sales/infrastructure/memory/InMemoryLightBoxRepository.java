@@ -11,21 +11,19 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
     private static final Map<Client, Collection<LightBox>> REPOSITORY = new HashMap<>();
 
     @Override
-    public void put(LightBox lightBox) {
-        Client owner = lightBox.getOwner();
+    public void put(LightBox l) {
+        Client owner = l.getOwner();
         REPOSITORY.putIfAbsent(owner, new HashSet<>());
-        REPOSITORY.get(owner).add(lightBox);
+        REPOSITORY.get(owner).add(l);
     }
 
     @Override
     public Collection<LightBox> getFor(Client client) {
         Collection<LightBox> temporaryStorage = new HashSet<>();
-
         if (REPOSITORY.containsKey(client))
             temporaryStorage.addAll(REPOSITORY.get(client));
         else
             throw new IllegalArgumentException("There are no LightBoxes stored for this client.");
-
         return temporaryStorage;
     }
 
@@ -48,4 +46,10 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
                     return lb;
         return null;
     }
+
+    @Override
+    public void update(LightBox l) {
+
+    }
+
 }

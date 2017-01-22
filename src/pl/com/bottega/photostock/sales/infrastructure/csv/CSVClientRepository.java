@@ -10,10 +10,11 @@ import java.util.LinkedList;
 
 public class CSVClientRepository implements ClientRepository {
 
-    private String path, tmpPath;
+    private String path, tmpPath, folderPath;
 
-    public CSVClientRepository(String path) {
-        this.path = path;
+    public CSVClientRepository(String folderPath) {
+        this.folderPath = folderPath;
+        this.path = folderPath + File.separator + "clients.csv";
         this.tmpPath = path + ".tmp";
     }
 
@@ -56,6 +57,12 @@ public class CSVClientRepository implements ClientRepository {
             throw new DataAccessException(e);
         }
         replaceFiles();
+        updateTransations(client);
+    }
+
+    private void updateTransations(Client client) {
+        CSVTransactionsRepository transactionsRepository = new CSVTransactionsRepository(folderPath);
+        transactionsRepository.saveTransactions(client.getNumber(), client.getTransactions());
     }
 
     private void replaceFiles() {
@@ -82,15 +89,16 @@ public class CSVClientRepository implements ClientRepository {
 
 
     private Client createClient(String[] attributes, String number) {
+        CSVTransactionsRepository transactionsRepository = new CSVTransactionsRepository(folderPath);
         String name = attributes[1];
         boolean active = Boolean.valueOf(attributes[2]);
         ClientStatus status = ClientStatus.valueOf(attributes[3]);
         Money balance = Money.valueOf(attributes[4]);
         if (status.equals(ClientStatus.VIP)) {
             Money creditLimit = Money.valueOf(attributes[5]);
-            return new VipClient(number, name, new Address(), balance, creditLimit, active, new LinkedList<>());
+            return new VipClient(number, name, new Address(), balance, creditLimit, active, transactionsRepository.getTransactions(number));
         } else
-            return new Client(number, name, new Address(), status, balance, active, new LinkedList<>());
+            return new Client(number, name, new Address(), status, balance, active, transactionsRepository.getTransactions(number));
     }
 
 }

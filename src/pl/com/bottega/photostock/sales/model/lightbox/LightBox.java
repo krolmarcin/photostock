@@ -13,12 +13,18 @@ public class LightBox implements Iterable<Product> {
 
     private String name;
 
-    private Collection<Product> items = new LinkedList<>();
+    private Collection<Product> items;
 
     public LightBox(Client client, String name) {
+        this(client, name, new LinkedList<>());
+    }
+
+    public LightBox(Client client, String name, Collection<Product> items) {
         this.client = client;
         this.name = name;
+        this.items = items;
     }
+
 
     public void add(Product product) {
         if (items.contains(product))
@@ -62,6 +68,10 @@ public class LightBox implements Iterable<Product> {
                 if (!items.contains(product) && product.isAvaliable())
                     items.add(product);
             }
+    }
+
+    public Collection<Product> getProducts() {
+        return items;
     }
 
 }
