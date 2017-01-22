@@ -11,18 +11,12 @@ import java.util.*;
 
 public class JDBCClientRepository implements ClientRepository {
 
-    private static final String GET_CLIENT_SQL =
-            "SELECT * FROM clients WHERE number = ?";
-    private static final String GET_TRANSACTIONS_SQL =
-            "SELECT * FROM transactions WHERE client_id = ?";
-    private static final String UPDATE_CLIENT_SQL =
-            "UPDATE clients SET name=?, active=?, status=?, balance=?, creditLimit=? WHERE number=?";
-    private static final String GET_CLIENT_ID_SQL =
-            "SELECT id FROM clients WHERE number = ?";
-    private static final String GET_TRANSACTIONS_COUNT_SQL =
-            "SELECT count(*) AS total FROM transactions WHERE client_id = ?";
-    private static final String INSERT_TRANSACTIONS_SQL =
-            "INSERT INTO transactions (client_id, value, description, date) VALUES (?, ?, ?, ?)";
+    private static final String GET_CLIENT_SQL = "SELECT * FROM clients WHERE number = ?";
+    private static final String GET_TRANSACTIONS_SQL = "SELECT * FROM transactions WHERE client_id = ?";
+    private static final String UPDATE_CLIENT_SQL = "UPDATE clients SET name=?, active=?, status=?, balance=?, creditLimit=? WHERE number=?";
+    private static final String GET_CLIENT_ID_SQL = "SELECT id FROM clients WHERE number = ?";
+    private static final String GET_TRANSACTIONS_COUNT_SQL = "SELECT count(*) AS total FROM transactions WHERE client_id = ?";
+    private static final String INSERT_TRANSACTIONS_SQL = "INSERT INTO transactions (client_id, value, description, date) VALUES (?, ?, ?, ?)";
     private Connection connection;
 
     public JDBCClientRepository(Connection connection) {
