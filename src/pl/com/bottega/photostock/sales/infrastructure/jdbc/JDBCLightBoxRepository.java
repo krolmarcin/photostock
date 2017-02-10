@@ -36,7 +36,8 @@ public class JDBCLightBoxRepository implements LightBoxRepository {
     private static final String INSERT_LIGHTBOX_SQL = "" +
             "INSERT INTO lightboxes (client_id, name, numberofproducts) VALUES (? , ?, ?)";
 
-    private static final String UPDATE_LIGHTBOX_SQL = "UPDATE lightboxes " +
+    private static final String UPDATE_LIGHTBOX_SQL = "" +
+            "UPDATE lightboxes " +
             "SET lightboxes.numberofproducts = ? " +
             "WHERE lightboxes.name LIKE ? AND lightboxes.client_id = ?";
 
