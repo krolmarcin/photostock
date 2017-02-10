@@ -4,6 +4,7 @@ import pl.com.bottega.photostock.sales.application.LightBoxManagement;
 import pl.com.bottega.photostock.sales.model.lightbox.LightBox;
 import pl.com.bottega.photostock.sales.model.product.Product;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class LightBoxScreen {
         this.lightBoxManagement = lightBoxManagement;
     }
 
-    public void print() {
+    public void print() throws SQLException {
         exit = false;
         while (!exit) {
             printMenu();
@@ -33,7 +34,7 @@ public class LightBoxScreen {
         return scanner.nextLine().split(" ");
     }
 
-    private void executeCommand(String[] cmd) {
+    private void executeCommand(String[] cmd) throws SQLException {
         if (cmd.length == 1) {
             if (cmd[0].equals("pokaz")) {
                 showLightBoxes();
@@ -54,11 +55,29 @@ public class LightBoxScreen {
         } else if (cmd.length == 3 && cmd[0].equals("dodaj")) {
             addToLightBox(cmd[1], cmd[2]);
             return;
+        } else if (cmd.length == 3 && cmd[0].equals("usun")) {
+            removeFromLightBox(cmd[1], cmd[2]);
+            return;
         }
         System.out.println("Sorry nie rozumiem ;(");
     }
 
-    private void reserveLightBoxes(String lightBoxName) {
+    private void removeFromLightBox(String lightBoxName, String productNumber) throws SQLException {
+        try {
+            lightBoxManagement.removeProduct(
+                    loginScreen.getAuthenticatedClientNumber(),
+                    lightBoxName,
+                    productNumber
+            );
+            System.out.println(String.format("Produkt %s został usuniety z light boxa %s", productNumber, lightBoxName));
+        } catch (Exception ex) {
+            System.out.println(String.format("Nie udało się usunąć produktu %s z light boxa %s. Komunikat bledu %s",
+                    productNumber, lightBoxName,
+                    ex.getMessage()));
+        }
+    }
+
+    private void reserveLightBoxes(String lightBoxName) throws SQLException {
         lightBoxManagement.reserve(loginScreen.getAuthenticatedClientNumber(), lightBoxName);
         System.out.println("Produkty zostały zarezerwowane.");
     }
@@ -79,7 +98,7 @@ public class LightBoxScreen {
         }
     }
 
-    private void showLightBox(String lightBoxName) {
+    private void showLightBox(String lightBoxName) throws SQLException {
         LightBox lightBox = null;
         try {
             lightBox = lightBoxManagement.getLightBox(loginScreen.getAuthenticatedClientNumber(), lightBoxName);
@@ -94,7 +113,7 @@ public class LightBoxScreen {
         }
     }
 
-    private void showLightBoxes() {
+    private void showLightBoxes() throws SQLException {
         Collection<String> lightBoxes = lightBoxManagement.getLightBoxNames(loginScreen.getAuthenticatedClientNumber());
         if (lightBoxes.size() == 0)
             System.out.println("Nie masz aktualnie żadnych light boxów");
@@ -111,6 +130,7 @@ public class LightBoxScreen {
         System.out.println("pokaz -> powoduje wyswietlenie nazw wszystkich lighboxow\n" +
                 "pokaz [nazwa lightboxa] -> powoduje wyswietlenie produktow znajdujacych sie w lighboxie o zadanej nazwie\n" +
                 "dodaj [nazwa lightboxa] [nr produktu] -> powoduje dodanie do lightboxa o zadanej nazwie produktu o zadanym numerze\n" +
+                "usun [nazwa lightboxa] [nr produktu] -> powoduje usunięcie z lightboxa o zadanej nazwie produktu o zadanym numerze\n" +
                 "rezerwuj [nazwa lightboxa] -> dodaje do rezerwacji wszystkie produkty z light boxa\n" +
                 "powrot -> powoduje powrot do menu głównego aplikacji");
     }

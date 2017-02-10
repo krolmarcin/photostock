@@ -7,6 +7,7 @@ import pl.com.bottega.photostock.sales.model.lightbox.LightBoxRepository;
 import pl.com.bottega.photostock.sales.model.product.Product;
 import pl.com.bottega.photostock.sales.model.product.ProductRepository;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public class LightBoxManagement {
@@ -24,7 +25,7 @@ public class LightBoxManagement {
         this.clientRepository = clientRepository;
     }
 
-    public Collection<String> getLightBoxNames(String customerNumber) {
+    public Collection<String> getLightBoxNames(String customerNumber) throws SQLException {
         Client client = getClient(customerNumber);
         return lightBoxRepository.getLightBoxNames(client);
     }
@@ -36,28 +37,39 @@ public class LightBoxManagement {
         return client;
     }
 
-    public LightBox getLightBox(String customerNumber, String lightBoxName) {
+    public LightBox getLightBox(String customerNumber, String lightBoxName) throws SQLException {
         Client client = getClient(customerNumber);
         LightBox lightBox = lightBoxRepository.findLightBox(client, lightBoxName);
         ensureLightBoxFound(lightBoxName, lightBox);
         return lightBox;
     }
 
-    public void addProduct(String customerNumber, String lightBoxName, String productNumber) {
+    public void addProduct(String customerNumber, String lightBoxName, String productNumber) throws SQLException {
         Client client = getClient(customerNumber);
         Product product = productRepository.get(productNumber);
         if (product == null) {
-            throw new IllegalArgumentException(String.format("No product with number %s", customerNumber));
+            throw new IllegalArgumentException(String.format("No product with number %s", productNumber));
         }
         LightBox lightBox = getOrCreateLightBox(lightBoxName, client);
         lightBox.add(product);
+        lightBoxRepository.put(lightBox);
     }
 
-    private LightBox getOrCreateLightBox(String lightBoxName, Client client) {
+    public void removeProduct(String customerNumber, String lightBoxName, String productNumber) throws SQLException {
+        Client client = getClient(customerNumber);
+        Product product = productRepository.get(productNumber);
+        if (product == null){
+            throw new IllegalStateException(String.format("No product with number %s", productNumber));
+        }
+        LightBox lightBox = getOrCreateLightBox(lightBoxName, client);
+        lightBox.remove(product);
+        lightBoxRepository.put(lightBox);
+    }
+
+    private LightBox getOrCreateLightBox(String lightBoxName, Client client) throws SQLException {
         LightBox lightBox = lightBoxRepository.findLightBox(client, lightBoxName);
         if (lightBox == null) {
             lightBox = new LightBox(client, lightBoxName);
-            lightBoxRepository.put(lightBox);
         }
         return lightBox;
     }
@@ -67,7 +79,7 @@ public class LightBoxManagement {
             throw new IllegalArgumentException(String.format("No LightBox with the given name %s", lightBoxName));
     }
 
-    public void reserve(String clientNumber, String lightBoxName) {
+    public void reserve(String clientNumber, String lightBoxName) throws SQLException {
         LightBox lightBox = getLightBox(clientNumber, lightBoxName);
         String reservationNumber = purchaseProcess.getReservation(clientNumber);
         for (Product product : lightBox) {

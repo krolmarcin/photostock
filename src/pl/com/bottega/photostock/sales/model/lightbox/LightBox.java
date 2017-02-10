@@ -9,6 +9,8 @@ import java.util.LinkedList;
 
 public class LightBox implements Iterable<Product> {
 
+    private String id;
+
     private Client client;
 
     private String name;

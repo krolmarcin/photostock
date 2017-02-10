@@ -1,5 +1,6 @@
 package pl.com.bottega.photostock.sales.presentation;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MainScreen {
@@ -21,7 +22,7 @@ public class MainScreen {
         this.lightBoxScreen = lightBoxScreen;
     }
 
-    public void print() {
+    public void print() throws SQLException {
         while (true) {
             printMenu();
             String command = getCommand();
@@ -29,7 +30,7 @@ public class MainScreen {
         }
     }
 
-    private void executeCommand(String command) {
+    private void executeCommand(String command) throws SQLException {
         switch (command) {
             case "1":
                 searchScreen.print();

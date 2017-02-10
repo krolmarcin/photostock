@@ -6,6 +6,8 @@ import pl.com.bottega.photostock.sales.application.ProductCatalog;
 import pl.com.bottega.photostock.sales.application.PurchaseProcess;
 import pl.com.bottega.photostock.sales.infrastructure.csv.CSVClientRepository;
 import pl.com.bottega.photostock.sales.infrastructure.csv.CSVLightBoxRepository;
+import pl.com.bottega.photostock.sales.infrastructure.jdbc.JDBCClientRepository;
+import pl.com.bottega.photostock.sales.infrastructure.jdbc.JDBCLightBoxRepository;
 import pl.com.bottega.photostock.sales.infrastructure.memory.*;
 import pl.com.bottega.photostock.sales.model.client.ClientRepository;
 import pl.com.bottega.photostock.sales.model.lightbox.LightBoxRepository;
@@ -14,6 +16,8 @@ import pl.com.bottega.photostock.sales.model.purchase.PurchaseRepository;
 import pl.com.bottega.photostock.sales.model.purchase.ReservationRepository;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class LightBoxMain {
@@ -25,16 +29,19 @@ public class LightBoxMain {
     private LoginScreen loginScreen;
     private LightBoxScreen lightBoxScreen;
 
-    public LightBoxMain() {
+    Connection c = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost:9001/photostock", "SA", "");
+
+
+    public LightBoxMain() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         ProductRepository productRepository = new InMemoryProductRepository();
         ProductCatalog productCatalog = new ProductCatalog(productRepository);
-        ClientRepository clientRepository = new CSVClientRepository("c:/photostockData");
+        ClientRepository clientRepository = new JDBCClientRepository(c);
         AuthenticationProcess authenticationProcess = new AuthenticationProcess(clientRepository);
         ReservationRepository reservationRepository = new InMemoryReservationRepository();
         PurchaseRepository purchaseRepository = new InMemoryPurchaseRepository();
         PurchaseProcess purchaseProcess = new PurchaseProcess(clientRepository, reservationRepository, productRepository, purchaseRepository);
-        LightBoxRepository lightBoxRepository = new CSVLightBoxRepository(productRepository,"c:/photostockData");
+        LightBoxRepository lightBoxRepository = new JDBCLightBoxRepository(c, productRepository);
         LightBoxManagement lightBoxManagement = new LightBoxManagement(purchaseProcess, lightBoxRepository, productRepository, clientRepository);
         loginScreen = new LoginScreen(scanner, authenticationProcess);
         searchScreen = new SearchScreen(scanner, productCatalog, loginScreen);
@@ -44,12 +51,12 @@ public class LightBoxMain {
         mainScreen = new MainScreen(scanner, searchScreen, reservationScreen, offerScreen, lightBoxScreen);
     }
 
-    public void start() {
+    public void start() throws SQLException {
         loginScreen.print();
         mainScreen.print();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         new LightBoxMain().start();
     }
 }

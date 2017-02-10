@@ -126,7 +126,7 @@ public class JDBCClientRepository implements ClientRepository {
         return resultSet.getInt("total");
     }
 
-    private int getClientId(Client client) throws SQLException {
+    public int getClientId(Client client) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(GET_CLIENT_ID_SQL);
         preparedStatement.setString(1, client.getNumber());
         ResultSet resultSet = preparedStatement.executeQuery();

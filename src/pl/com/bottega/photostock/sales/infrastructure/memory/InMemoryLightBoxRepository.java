@@ -47,9 +47,4 @@ public class InMemoryLightBoxRepository implements LightBoxRepository {
         return null;
     }
 
-    @Override
-    public void update(LightBox l) {
-
-    }
-
 }

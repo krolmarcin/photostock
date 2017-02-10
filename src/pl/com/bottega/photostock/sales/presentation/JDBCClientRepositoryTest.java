@@ -25,11 +25,16 @@ public class JDBCClientRepositoryTest {
         */
 
         Client client = clientRepository.get("100");
-        client.activate();
+        client.deactivate();
         clientRepository.update(client);
 
         System.out.println(client.getName());
         System.out.println(client.getTransactions().size());
+        System.out.println(client.isActive());
+
+        client.activate();
+        clientRepository.update(client);
+        System.out.println(client.isActive());
 
     }
 
